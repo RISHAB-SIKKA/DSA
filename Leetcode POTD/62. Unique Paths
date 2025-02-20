@@ -1,0 +1,49 @@
+// T.C. = O(MXN)
+// S.C. = O((N-1) + (M-1)) + O(MXN)
+
+// class Solution {
+// public:
+//     int t[101][101];
+
+//     int solve(int i, int j, int m, int n){
+//         if(i < 0 || j<0 || i>=m || j >=n ) return 0;
+
+//         if(i==m-1 && j == n-1) return 1;
+
+//         if(t[i][j] != -1) return t[i][j];
+
+//         int right = solve(i, j+1, m, n);
+//         int down = solve(i+1,j,m,n);
+
+//         return t[i][j] = right+down;
+
+//     }
+//     int uniquePaths(int m, int n) {
+//         memset(t,-1,sizeof(t));
+//         return solve(0,0,m,n);
+//     }
+// };
+
+// Tabulation Approach (Bottom-Up DP)
+// Time Complexity: 𝑂(𝑚×𝑛) O(m×n) → Since we fill an m × n table.
+// Space Complexity: 𝑂(𝑚×𝑛) O(m×n) → Extra DP table storage.
+// 
+class Solution {
+public:
+   
+    int uniquePaths(int m, int n) {
+        vector<vector<int>> dp(m, vector<int>(n,1));
+
+        for(int i  = 1; i<m; i++){
+            for(int j = 1; j<n; j++){
+                if(i == 0 && j==0) dp[i][j] = 1;
+                else{
+                    int up = dp[i-1][j];
+                    int left = dp[i][j-1];
+                    dp[i][j] = up+left;
+                }
+            }
+        }
+        return dp[m-1][n-1]; 
+    }
+};
